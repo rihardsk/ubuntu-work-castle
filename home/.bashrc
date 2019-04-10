@@ -121,9 +121,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# the default umask is broken on WSL https://github.com/Microsoft/WSL/issues/352
-# let's set it
-umask 0002
+if [ -f ~/.device_profile ]; then
+  # this file isn't suposed to be commited to the castle
+  . ~/.device_profile
+fi
+
+if [ "$WSL" = true ]; then
+  # the default umask is broken on WSL https://github.com/Microsoft/WSL/issues/352
+  # let's set it
+  umask 0002
+fi
 
 if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by rihards
 
@@ -132,11 +139,15 @@ alias em='emacsclient -c'
 # alias conda='/home/rihards/miniconda3/bin/conda'
 # PATH="/home/rihards/miniconda3/bin":$PATH
 
-# this is for pyvenv in spacemacs (in the python layer)
-export WORKON_HOME="$HOME/miniconda3/envs"
+if [ -d ~/miniconda3 ]; then
+  # this is for pyvenv in spacemacs (in the python layer)
+  export WORKON_HOME="$HOME/miniconda3/envs"
 
-. /home/rihards/miniconda3/etc/profile.d/conda.sh
+  . /home/rihards/miniconda3/etc/profile.d/conda.sh
+fi
 
-# stuff to make stuff work with VcXsrv
-export LIBGL_ALWAYS_INDIRECT=1
-export DISPLAY=:0
+if [ "$WSL" = true ]; then
+  # stuff to make stuff work with VcXsrv
+  export LIBGL_ALWAYS_INDIRECT=1
+  export DISPLAY=:0
+fi
