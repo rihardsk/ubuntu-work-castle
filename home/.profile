@@ -27,3 +27,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 #if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+DOTNET_CLI_TELEMETRY_OPTOUT=1
