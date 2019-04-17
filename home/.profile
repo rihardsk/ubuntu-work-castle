@@ -26,6 +26,13 @@ if [ "$WSL" != true ]; then
   fi
 fi
 
+if [ -d ~/miniconda3 ]; then
+  # this is for pyvenv in spacemacs (in the python layer)
+  export WORKON_HOME="$HOME/miniconda3/envs"
+
+  . /home/rihards/miniconda3/etc/profile.d/conda.sh
+fi
+
 if [ -f ~/.device_profile ]; then
   # this file isn't suposed to be commited to the Homesick castle
   . ~/.device_profile
@@ -42,14 +49,17 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-#if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 if [ "$WSL" = true ]; then
+  # stuff to make stuff work with VcXsrv
+  export LIBGL_ALWAYS_INDIRECT=1
+  export DISPLAY=:0
+
   if [ -x "$(command -v setxkbmap)" ]; then
     # NOTE: this is probably being called each time a terminal is opened on WSL
     setxkbmap -layout lv -variant apostrophe -model logitech_base
   fi
 fi
-

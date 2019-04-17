@@ -147,25 +147,7 @@ if [ "$WSL" = true ]; then
   umask 0002
 fi
 
-if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by rihards
-
-alias em='emacsclient -c'
-# alias act='source /home/rihards/miniconda3/bin/activate'
-# alias conda='/home/rihards/miniconda3/bin/conda'
-# PATH="/home/rihards/miniconda3/bin":$PATH
-
-if [ -d ~/miniconda3 ]; then
-  # this is for pyvenv in spacemacs (in the python layer)
-  export WORKON_HOME="$HOME/miniconda3/envs"
-
-  . /home/rihards/miniconda3/etc/profile.d/conda.sh
-fi
-
 if [ "$WSL" = true ]; then
-  # stuff to make stuff work with VcXsrv
-  export LIBGL_ALWAYS_INDIRECT=1
-  export DISPLAY=:0
-
   # normally ~/.profile is loaded automatically but this doesn't happen on WSL
   if [ "$PROFILE_LOADED" != true ]; then
     . ~/.profile

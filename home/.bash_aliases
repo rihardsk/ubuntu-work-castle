@@ -1,3 +1,5 @@
+alias em='emacsclient -c'
+
 # aliases for url part encoding/decoding
 alias urldecode='python -c "import sys, urllib as ul; \
     print ul.unquote_plus(sys.argv[1])"'
