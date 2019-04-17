@@ -8,6 +8,26 @@ case $- in
       *) return;;
 esac
 
+if [ "$PROFILE_LOADED" != true ]; then
+  # this makes us suspect that we might be on WSL, because WSL doesn't
+  # automatically load ~/.profile. We must load ~/.device_profile,
+  # which has $WSL exported if we're on WSL, to know for sure
+  export WSL=$(
+    if [ -f ~/.device_profile ]; then
+      . ~/.device_profile
+      if [ "$WSL" = true ]; then
+        echo true
+        exit
+      fi
+    fi
+    echo false
+    exit
+  )
+  # the above is done from within a subshell because we don't care for the rest of
+  # the stuff that's happening there and the file should actually be sourced
+  # in ~/.profile
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -121,11 +141,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ~/.device_profile ]; then
-  # this file isn't suposed to be commited to the castle
-  . ~/.device_profile
-fi
-
 if [ "$WSL" = true ]; then
   # the default umask is broken on WSL https://github.com/Microsoft/WSL/issues/352
   # let's set it
@@ -150,4 +165,9 @@ if [ "$WSL" = true ]; then
   # stuff to make stuff work with VcXsrv
   export LIBGL_ALWAYS_INDIRECT=1
   export DISPLAY=:0
+
+  # normally ~/.profile is loaded automatically but this doesn't happen on WSL
+  if [ "$PROFILE_LOADED" != true ]; then
+    . ~/.profile
+  fi
 fi

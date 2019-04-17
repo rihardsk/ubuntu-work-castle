@@ -8,13 +8,29 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+# this is to let ~/.bashrc know if it's loaded before or after ~/.profile
+# it's needed for compatibility with WSL which doesn't automatically load
+# ~/.profile
+export PROFILE_LOADED=true
+
+# if we're on WSL, then ~/.profile isn't loaded automatically, instead it's
+# done manually in ~/.bashrc (which IS loaded automatically (that's where
+# $WSL came from))
+if [ "$WSL" != true ]; then
+  # if running bash
+  if [ -n "$BASH_VERSION" ]; then
+      # include .bashrc if it exists
+      if [ -f "$HOME/.bashrc" ]; then
+          . "$HOME/.bashrc"
+      fi
+  fi
 fi
+
+if [ -f ~/.device_profile ]; then
+  # this file isn't suposed to be commited to the Homesick castle
+  . ~/.device_profile
+fi
+
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
@@ -29,3 +45,11 @@ fi
 #if [ -e /home/rihards/.nix-profile/etc/profile.d/nix.sh ]; then . /home/rihards/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+if [ "$WSL" = true ]; then
+  if [ -x "$(command -v setxkbmap)" ]; then
+    # NOTE: this is probably being called each time a terminal is opened on WSL
+    setxkbmap -layout lv -variant apostrophe -model logitech_base
+  fi
+fi
+
