@@ -16,7 +16,7 @@ export PROFILE_LOADED=true
 # if we're on WSL, then ~/.profile isn't loaded automatically, instead it's
 # done manually in ~/.bashrc (which IS loaded automatically (that's where
 # $WSL came from))
-if [ "$WSL" != true ]; then
+if [ "$WSL" != true ] || [ "$BASHRC_LOADED" != true ]; then
   # if running bash
   if [ -n "$BASH_VERSION" ]; then
       # include .bashrc if it exists
