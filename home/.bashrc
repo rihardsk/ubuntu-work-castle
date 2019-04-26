@@ -8,9 +8,9 @@ case $- in
       *) return;;
 esac
 
-export BASHRC_LOADED=true
+export BASHRC_LOADING=true
 
-if [ "$PROFILE_LOADED" != true ]; then
+if [ "$PROFILE_LOADING" != true ]; then
   # this makes us suspect that we might be on WSL, because WSL doesn't
   # automatically load ~/.profile. We must load ~/.device_profile,
   # which has $WSL exported if we're on WSL, to know for sure
@@ -155,7 +155,9 @@ fi
 
 if [ "$WSL" = true ]; then
   # normally ~/.profile is loaded automatically but this doesn't happen on WSL
-  if [ "$PROFILE_LOADED" != true ]; then
+  if [ "$PROFILE_LOADING" != true ]; then
     . ~/.profile
   fi
 fi
+
+unset BASHRC_LOADING
