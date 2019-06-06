@@ -61,3 +61,7 @@ onoremap <silent> [a :call NextIndent(0, 0, 0, 1)<CR>
 onoremap <silent> ]a :call NextIndent(0, 1, 0, 1)<CR>
 onoremap <silent> [A :call NextIndent(1, 0, 1, 1)<CR>
 onoremap <silent> ]A :call NextIndent(1, 1, 1, 1)<CR>
+
+" mitigate the vim modeline rce vulnerability
+" more details here https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
+set nomodeline
