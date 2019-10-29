@@ -2,7 +2,7 @@
     email = rihards.krislauks@tilde.lv
     name = Rihards Krišlauks
 [alias]
-    l = log --graph --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %C(auto)%s%Creset %C(white dim)(by %an %ar)%Creset'
+    l = log --graph --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %C(auto)%s%Creset %C(white dim)(by %an %ar)%Creset'
     ll = !git l --all
 [core]
     pager = less -S
